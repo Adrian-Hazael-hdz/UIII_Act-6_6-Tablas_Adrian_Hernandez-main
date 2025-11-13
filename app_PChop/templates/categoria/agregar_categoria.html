@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">➕ Agregar Nueva Categoría</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label"><strong>Nombre</strong></label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required 
+                               placeholder="Ingresa el nombre de la categoría">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label"><strong>Descripción</strong></label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required 
+                                  placeholder="Describe la categoría..."></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="imagen" class="form-label"><strong>Imagen de la Categoría</strong></label>
+                        <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
+                        <div class="form-text">
+                            📷 Formatos aceptados: JPG, PNG, GIF, WEBP. Tamaño máximo: 5MB
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="slug" class="form-label"><strong>Slug</strong></label>
+                        <input type="text" class="form-control" id="slug" name="slug" required 
+                               placeholder="ej: componentes-pc">
+                        <div class="form-text">
+                            🔗 Identificador único para URLs (usar guiones, sin espacios ni mayúsculas)
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="prioridad" class="form-label"><strong>Prioridad</strong></label>
+                        <input type="number" class="form-control" id="prioridad" name="prioridad" value="1" min="1" max="10">
+                        <div class="form-text">
+                            🎯 Número entre 1 (más importante) y 10 (menos importante)
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <button type="submit" class="btn btn-success me-md-2">
+                            💾 Guardar Categoría
+                        </button>
+                        <a href="{% url 'ver_categorias' %}" class="btn btn-outline-secondary">
+                            ↩️ Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-label {
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+.form-control {
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+.card {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+</style>
+{% endblock %}

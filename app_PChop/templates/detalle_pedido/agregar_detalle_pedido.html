@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">📋 Agregar Detalle de Pedido</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="pedido" class="form-label"><strong>Pedido</strong></label>
+                        <select class="form-select" id="pedido" name="pedido" required>
+                            <option value="">Seleccionar pedido</option>
+                            {% for pedido in pedidos %}
+                            <option value="{{ pedido.id }}">Pedido #{{ pedido.id }} - {{ pedido.cliente }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="producto" class="form-label"><strong>Producto</strong></label>
+                        <select class="form-select" id="producto" name="producto" required>
+                            <option value="">Seleccionar producto</option>
+                            {% for producto in productos %}
+                            <option value="{{ producto.id }}" data-precio="{{ producto.precio }}">
+                                {{ producto.nombre }} - ${{ producto.precio }} (Stock: {{ producto.stock }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="cantidad" class="form-label"><strong>Cantidad</strong></label>
+                                <input type="number" class="form-control" id="cantidad" name="cantidad" min="1" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="precio_unitario" class="form-label"><strong>Precio Unitario</strong></label>
+                                <input type="number" step="0.01" class="form-control" id="precio_unitario" name="precio_unitario" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="alert alert-info">
+                            <strong>Subtotal calculado: </strong>
+                            <span id="subtotal">$0.00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-success me-md-2">💾 Guardar Detalle</button>
+                        <a href="{% url 'ver_detalles_pedido' %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const productoSelect = document.getElementById('producto');
+    const cantidadInput = document.getElementById('cantidad');
+    const precioInput = document.getElementById('precio_unitario');
+    const subtotalSpan = document.getElementById('subtotal');
+    
+    function calcularSubtotal() {
+        const cantidad = parseInt(cantidadInput.value) || 0;
+        const precio = parseFloat(precioInput.value) || 0;
+        const subtotal = cantidad * precio;
+        subtotalSpan.textContent = '$' + subtotal.toFixed(2);
+    }
+    
+    productoSelect.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const precio = selectedOption.getAttribute('data-precio');
+        if (precio) {
+            precioInput.value = precio;
+            calcularSubtotal();
+        }
+    });
+    
+    cantidadInput.addEventListener('input', calcularSubtotal);
+    precioInput.addEventListener('input', calcularSubtotal);
+});
+</script>
+{% endblock %}

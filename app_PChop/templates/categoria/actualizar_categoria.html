@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">✏️ Actualizar Categoría: {{ categoria.nombre }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <!-- Mostrar imagen actual -->
+                    <div class="mb-4 text-center">
+                        <label class="form-label"><strong>Imagen Actual</strong></label>
+                        <div class="border rounded p-3 bg-light">
+                            {% if categoria.imagen %}
+                                <img src="{{ categoria.imagen.url }}" alt="{{ categoria.nombre }}" 
+                                     class="img-thumbnail mb-2" style="max-width: 200px; max-height: 200px;">
+                                <div class="form-text">
+                                    📷 Imagen actual de la categoría
+                                </div>
+                            {% else %}
+                                <div class="text-muted p-4">
+                                    <div style="font-size: 48px;">📷</div>
+                                    <div>No hay imagen actual</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label"><strong>Nombre</strong></label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="{{ categoria.nombre }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label"><strong>Descripción</strong></label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required>{{ categoria.descripcion }}</textarea>
+                    </div>
+                    
+                    <!-- CAMPO PARA SUBIR NUEVA IMAGEN -->
+                    <div class="mb-3">
+                        <label for="imagen" class="form-label"><strong>Cambiar Imagen (Opcional)</strong></label>
+                        <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
+                        <div class="form-text">
+                            📁 Selecciona una nueva imagen para reemplazar la actual
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="slug" class="form-label"><strong>Slug</strong></label>
+                        <input type="text" class="form-control" id="slug" name="slug" value="{{ categoria.slug }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="prioridad" class="form-label"><strong>Prioridad</strong></label>
+                        <input type="number" class="form-control" id="prioridad" name="prioridad" value="{{ categoria.prioridad }}" min="1" max="10">
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <button type="submit" class="btn btn-primary me-md-2">
+                            💾 Actualizar Categoría
+                        </button>
+                        <a href="{% url 'ver_categorias' %}" class="btn btn-outline-secondary">
+                            ↩️ Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-label {
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+.form-control {
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+.card {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+</style>
+{% endblock %}

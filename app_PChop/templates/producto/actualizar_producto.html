@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">✏️ Actualizar Producto: {{ producto.nombre }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <!-- Mostrar imagen actual -->
+                    <div class="mb-4 text-center">
+                        <label class="form-label"><strong>Imagen Actual</strong></label>
+                        <div class="border rounded p-3 bg-light">
+                            {% if producto.imagen %}
+                                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" 
+                                     class="img-thumbnail mb-2" style="max-width: 200px; max-height: 200px;">
+                                <div class="form-text">
+                                    📷 Imagen actual del producto
+                                </div>
+                            {% else %}
+                                <div class="text-muted p-4">
+                                    <div style="font-size: 48px;">📷</div>
+                                    <div>No hay imagen actual</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="categoria" class="form-label"><strong>Categoría</strong></label>
+                                <select class="form-select" id="categoria" name="categoria" required>
+                                    {% for categoria in categorias %}
+                                    <option value="{{ categoria.id }}" {% if categoria.id == producto.categoria.id %}selected{% endif %}>
+                                        {{ categoria.nombre }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- NUEVO: Selector de Fabricante -->
+                            <div class="mb-3">
+                                <label for="fabricante" class="form-label"><strong>Fabricante</strong></label>
+                                <select class="form-select" id="fabricante" name="fabricante">
+                                    <option value="">Sin fabricante</option>
+                                    {% for fabricante in fabricantes %}
+                                    <option value="{{ fabricante.id }}" 
+                                            {% if producto.fabricante and fabricante.id == producto.fabricante.id %}selected{% endif %}>
+                                        {{ fabricante.nombre }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label"><strong>Nombre del Producto</strong></label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="{{ producto.nombre }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label"><strong>Descripción</strong></label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required>{{ producto.descripcion }}</textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="precio" class="form-label"><strong>Precio ($)</strong></label>
+                                <input type="number" step="0.01" class="form-control" id="precio" name="precio" 
+                                       value="{{ producto.precio }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="stock" class="form-label"><strong>Stock</strong></label>
+                                <input type="number" class="form-control" id="stock" name="stock" 
+                                       value="{{ producto.stock }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="garantia_meses" class="form-label"><strong>Garantía (meses)</strong></label>
+                                <input type="number" class="form-control" id="garantia_meses" name="garantia_meses" 
+                                       value="{{ producto.garantia_meses|default:0 }}" min="0">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="marca" class="form-label"><strong>Marca</strong></label>
+                                <input type="text" class="form-control" id="marca" name="marca" value="{{ producto.marca }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="sku" class="form-label"><strong>SKU</strong></label>
+                                <input type="text" class="form-control" id="sku" name="sku" value="{{ producto.sku|default:'' }}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="imagen" class="form-label"><strong>Cambiar Imagen (Opcional)</strong></label>
+                        <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
+                        <div class="form-text">
+                            📁 Selecciona una nueva imagen para reemplazar la actual
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <button type="submit" class="btn btn-primary me-md-2">
+                            💾 Actualizar Producto
+                        </button>
+                        <a href="{% url 'ver_productos' %}" class="btn btn-outline-secondary">
+                            ↩️ Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

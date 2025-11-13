@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">✏️ Actualizar Fabricante: {{ fabricante.nombre }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <!-- Mostrar logo actual -->
+                    <div class="mb-4 text-center">
+                        <label class="form-label"><strong>Logo Actual</strong></label>
+                        <div class="border rounded p-3 bg-light">
+                            {% if fabricante.logo %}
+                                <img src="{{ fabricante.logo.url }}" class="img-thumbnail mb-2" 
+                                     style="max-width: 200px; max-height: 200px;">
+                                <div class="form-text">Logo actual del fabricante</div>
+                            {% else %}
+                                <div class="text-muted p-4">
+                                    <div style="font-size: 48px;">🏭</div>
+                                    <div>No hay logo actual</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label"><strong>Nombre del Fabricante</strong></label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="{{ fabricante.nombre }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label"><strong>Descripción</strong></label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3">{{ fabricante.descripcion }}</textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label"><strong>Teléfono</strong></label>
+                                <input type="text" class="form-control" id="telefono" name="telefono" value="{{ fabricante.telefono }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="email" class="form-label"><strong>Email</strong></label>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ fabricante.email }}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label"><strong>Dirección</strong></label>
+                        <textarea class="form-control" id="direccion" name="direccion" rows="2">{{ fabricante.direccion }}</textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="logo" class="form-label"><strong>Cambiar Logo (Opcional)</strong></label>
+                        <input type="file" class="form-control" id="logo" name="logo" accept="image/*">
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary me-md-2">💾 Actualizar Fabricante</button>
+                        <a href="{% url 'ver_fabricantes' %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

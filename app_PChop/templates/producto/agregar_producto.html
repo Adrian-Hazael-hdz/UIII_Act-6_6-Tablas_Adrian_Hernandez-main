@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">📦 Agregar Nuevo Producto</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="categoria" class="form-label"><strong>Categoría</strong></label>
+                                <select class="form-select" id="categoria" name="categoria" required>
+                                    <option value="">Selecciona una categoría</option>
+                                    {% for categoria in categorias %}
+                                    <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- NUEVO: Selector de Fabricante -->
+                            <div class="mb-3">
+                                <label for="fabricante" class="form-label"><strong>Fabricante</strong></label>
+                                <select class="form-select" id="fabricante" name="fabricante">
+                                    <option value="">Selecciona un fabricante</option>
+                                    {% for fabricante in fabricantes %}
+                                    <option value="{{ fabricante.id }}">{{ fabricante.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label"><strong>Nombre del Producto</strong></label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required 
+                               placeholder="Ingresa el nombre del producto">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label"><strong>Descripción</strong></label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required 
+                                  placeholder="Describe el producto..."></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="precio" class="form-label"><strong>Precio ($)</strong></label>
+                                <input type="number" step="0.01" class="form-control" id="precio" name="precio" required 
+                                       placeholder="0.00">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="stock" class="form-label"><strong>Stock</strong></label>
+                                <input type="number" class="form-control" id="stock" name="stock" required 
+                                       placeholder="Cantidad disponible">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="garantia_meses" class="form-label"><strong>Garantía (meses)</strong></label>
+                                <input type="number" class="form-control" id="garantia_meses" name="garantia_meses" 
+                                       value="0" min="0" placeholder="Meses de garantía">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="marca" class="form-label"><strong>Marca</strong></label>
+                                <input type="text" class="form-control" id="marca" name="marca" required 
+                                       placeholder="Marca del producto">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="sku" class="form-label"><strong>SKU</strong></label>
+                                <input type="text" class="form-control" id="sku" name="sku" 
+                                       placeholder="Código SKU del producto">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="imagen" class="form-label"><strong>Imagen del Producto</strong></label>
+                        <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
+                        <div class="form-text">
+                            📷 Formatos: JPG, PNG, GIF, WEBP. Tamaño máximo: 5MB
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <button type="submit" class="btn btn-success me-md-2">
+                            💾 Guardar Producto
+                        </button>
+                        <a href="{% url 'ver_productos' %}" class="btn btn-outline-secondary">
+                            ↩️ Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

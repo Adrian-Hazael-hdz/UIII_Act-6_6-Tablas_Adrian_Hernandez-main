@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">✏️ Actualizar Usuario: {{ usuario.username }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <!-- Mostrar imagen actual -->
+                    <div class="mb-4 text-center">
+                        <label class="form-label"><strong>Imagen de Perfil Actual</strong></label>
+                        <div class="border rounded p-3 bg-light">
+                            {% if usuario.imagen_perfil %}
+                                <img src="{{ usuario.imagen_perfil.url }}" class="img-thumbnail rounded-circle mb-2" 
+                                     style="width: 150px; height: 150px; object-fit: cover;">
+                                <div class="form-text">Imagen actual del usuario</div>
+                            {% else %}
+                                <div class="text-muted p-4">
+                                    <div style="font-size: 64px;">👤</div>
+                                    <div>No hay imagen de perfil</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="username" class="form-label"><strong>Username</strong></label>
+                                <input type="text" class="form-control" id="username" name="username" value="{{ usuario.username }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="email" class="form-label"><strong>Email</strong></label>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ usuario.email }}" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="first_name" class="form-label"><strong>Nombre</strong></label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" value="{{ usuario.first_name }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="last_name" class="form-label"><strong>Apellido</strong></label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ usuario.last_name }}" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label"><strong>Teléfono</strong></label>
+                                <input type="text" class="form-control" id="telefono" name="telefono" value="{{ usuario.telefono }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="tipo_usuario" class="form-label"><strong>Tipo de Usuario</strong></label>
+                                <select class="form-select" id="tipo_usuario" name="tipo_usuario" required>
+                                    <option value="cliente" {% if usuario.tipo_usuario == 'cliente' %}selected{% endif %}>Cliente</option>
+                                    <option value="vendedor" {% if usuario.tipo_usuario == 'vendedor' %}selected{% endif %}>Vendedor</option>
+                                    <option value="almacen" {% if usuario.tipo_usuario == 'almacen' %}selected{% endif %}>Almacén</option>
+                                    <option value="admin" {% if usuario.tipo_usuario == 'admin' %}selected{% endif %}>Administrador</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label"><strong>Dirección</strong></label>
+                        <textarea class="form-control" id="direccion" name="direccion" rows="3">{{ usuario.direccion }}</textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="imagen_perfil" class="form-label"><strong>Cambiar Imagen de Perfil (Opcional)</strong></label>
+                        <input type="file" class="form-control" id="imagen_perfil" name="imagen_perfil" accept="image/*">
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary me-md-2">💾 Actualizar Usuario</button>
+                        <a href="{% url 'ver_usuarios' %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

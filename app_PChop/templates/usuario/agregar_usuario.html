@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">👥 Agregar Nuevo Usuario</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="username" class="form-label"><strong>Username</strong></label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="email" class="form-label"><strong>Email</strong></label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="first_name" class="form-label"><strong>Nombre</strong></label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="last_name" class="form-label"><strong>Apellido</strong></label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label"><strong>Contraseña</strong></label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label"><strong>Teléfono</strong></label>
+                                <input type="text" class="form-control" id="telefono" name="telefono">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="tipo_usuario" class="form-label"><strong>Tipo de Usuario</strong></label>
+                                <select class="form-select" id="tipo_usuario" name="tipo_usuario" required>
+                                    <option value="cliente">Cliente</option>
+                                    <option value="vendedor">Vendedor</option>
+                                    <option value="almacen">Almacén</option>
+                                    <option value="admin">Administrador</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label"><strong>Dirección</strong></label>
+                        <textarea class="form-control" id="direccion" name="direccion" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="imagen_perfil" class="form-label"><strong>Imagen de Perfil</strong></label>
+                        <input type="file" class="form-control" id="imagen_perfil" name="imagen_perfil" accept="image/*">
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-success me-md-2">💾 Guardar Usuario</button>
+                        <a href="{% url 'ver_usuarios' %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

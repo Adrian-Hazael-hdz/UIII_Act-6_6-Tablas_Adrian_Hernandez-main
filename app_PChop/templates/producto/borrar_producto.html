@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white text-center">
+                <h4 class="mb-0">🗑️ Confirmar Eliminación</h4>
+            </div>
+            <div class="card-body text-center">
+                <!-- Mostrar imagen del producto a eliminar -->
+                <div class="mb-4">
+                    {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" 
+                             class="img-thumbnail rounded" style="width: 150px; height: 150px; object-fit: cover;">
+                    {% else %}
+                        <div class="text-muted border rounded d-inline-flex align-items-center justify-content-center" 
+                             style="width: 150px; height: 150px; background: #f8f9fa;">
+                            <div>
+                                <div style="font-size: 32px;">📷</div>
+                                <small>Sin imagen</small>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <h5>¿Estás seguro de que deseas eliminar el producto?</h5>
+                <p class="lead"><strong>"{{ producto.nombre }}"</strong></p>
+                <p class="text-muted">{{ producto.marca }} - ${{ producto.precio }}</p>
+                
+                <div class="alert alert-warning mt-3">
+                    <strong>⚠️ Advertencia:</strong><br>
+                    • Esta acción no se puede deshacer<br>
+                    • Se eliminará la imagen asociada permanentemente<br>
+                    • El producto se removerá de todos los pedidos
+                </div>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                        <button type="submit" class="btn btn-danger btn-lg me-md-2">
+                            ✅ Sí, Eliminar Permanentemente
+                        </button>
+                        <a href="{% url 'ver_productos' %}" class="btn btn-secondary btn-lg">
+                            ❌ Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

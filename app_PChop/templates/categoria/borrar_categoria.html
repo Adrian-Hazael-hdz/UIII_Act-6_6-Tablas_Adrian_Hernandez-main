@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white text-center">
+                <h4 class="mb-0">🗑️ Confirmar Eliminación</h4>
+            </div>
+            <div class="card-body text-center">
+                <!-- Mostrar imagen de la categoría a eliminar -->
+                <div class="mb-4">
+                    {% if categoria.imagen %}
+                        <img src="{{ categoria.imagen.url }}" alt="{{ categoria.nombre }}" 
+                             class="img-thumbnail rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
+                    {% else %}
+                        <div class="text-muted border rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 120px; height: 120px; background: #f8f9fa;">
+                            <div>
+                                <div style="font-size: 32px;">📷</div>
+                                <small>Sin imagen</small>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <h5>¿Estás seguro de que deseas eliminar la categoría?</h5>
+                <p class="lead"><strong>"{{ categoria.nombre }}"</strong></p>
+                
+                {% if categoria.descripcion %}
+                <p class="text-muted">{{ categoria.descripcion }}</p>
+                {% endif %}
+                
+                <div class="alert alert-warning mt-3">
+                    <strong>⚠️ Advertencia:</strong><br>
+                    • Esta acción no se puede deshacer<br>
+                    • Se eliminará la imagen asociada permanentemente<br>
+                    • Los productos relacionados podrían verse afectados
+                </div>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                        <button type="submit" class="btn btn-danger btn-lg me-md-2">
+                            ✅ Sí, Eliminar Permanentemente
+                        </button>
+                        <a href="{% url 'ver_categorias' %}" class="btn btn-secondary btn-lg">
+                            ❌ Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

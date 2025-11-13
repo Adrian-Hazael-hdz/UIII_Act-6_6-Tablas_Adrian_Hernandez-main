@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white text-center">
+                <h4 class="mb-0">🗑️ Confirmar Eliminación de Usuario</h4>
+            </div>
+            <div class="card-body text-center">
+                <div class="mb-4">
+                    {% if usuario.imagen_perfil %}
+                        <img src="{{ usuario.imagen_perfil.url }}" class="img-thumbnail rounded-circle" 
+                             style="width: 120px; height: 120px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center mx-auto" 
+                             style="width: 120px; height: 120px;">
+                            <span class="text-white" style="font-size: 48px;">👤</span>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <h5>¿Estás seguro de que deseas eliminar el usuario?</h5>
+                <p class="lead"><strong>"{{ usuario.username }}"</strong></p>
+                <p class="text-muted">{{ usuario.first_name }} {{ usuario.last_name }}</p>
+                
+                <div class="alert alert-info text-start">
+                    <strong>📋 Información del usuario:</strong><br>
+                    • Email: {{ usuario.email }}<br>
+                    • Tipo: {{ usuario.get_tipo_usuario_display }}<br>
+                    • Teléfono: {{ usuario.telefono|default:"No especificado" }}<br>
+                    • Estado: {% if usuario.activo %}Activo{% else %}Inactivo{% endif %}
+                </div>
+                
+                <div class="alert alert-warning mt-3">
+                    <strong>⚠️ Advertencia:</strong><br>
+                    • Esta acción no se puede deshacer<br>
+                    • Se eliminará la imagen de perfil<br>
+                    • El usuario no podrá acceder al sistema<br>
+                    • Los pedidos asociados a este usuario quedarán sin usuario asignado
+                </div>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                        <button type="submit" class="btn btn-danger btn-lg me-md-2">
+                            ✅ Sí, Eliminar Permanentemente
+                        </button>
+                        <a href="{% url 'ver_usuarios' %}" class="btn btn-secondary btn-lg">
+                            ❌ Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white text-center">
+                <h4 class="mb-0">🗑️ Confirmar Eliminación de Detalle</h4>
+            </div>
+            <div class="card-body text-center">
+                <div class="mb-4">
+                    <div style="font-size: 64px;">📋</div>
+                </div>
+                
+                <h5>¿Estás seguro de que deseas eliminar este detalle de pedido?</h5>
+                <p class="lead"><strong>Detalle #{{ detalle.id }}</strong></p>
+                
+                <div class="alert alert-info text-start">
+                    <strong>📋 Información del detalle:</strong><br>
+                    • Pedido: #{{ detalle.pedido.id }} - {{ detalle.pedido.cliente }}<br>
+                    • Producto: {{ detalle.producto.nombre }}<br>
+                    • Cantidad: {{ detalle.cantidad }}<br>
+                    • Precio unitario: ${{ detalle.precio_unitario }}<br>
+                    • Subtotal: <strong>${{ detalle.subtotal }}</strong>
+                </div>
+                
+                <div class="alert alert-warning mt-3">
+                    <strong>⚠️ Advertencia:</strong><br>
+                    • Esta acción no se puede deshacer<br>
+                    • Se eliminará permanentemente este detalle<br>
+                    • El total del pedido podría verse afectado
+                </div>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                        <button type="submit" class="btn btn-danger btn-lg me-md-2">
+                            ✅ Sí, Eliminar Permanentemente
+                        </button>
+                        <a href="{% url 'ver_detalles_pedido' %}" class="btn btn-secondary btn-lg">
+                            ❌ Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
